@@ -1,30 +1,30 @@
+const apiKey="YOUR_API_KEY";
 
+const city="Karachi";
 
-var getdiv = document.getElementById("getdiv");
-var getSearch = document.getElementById("news");
+fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`)
 
-var getNews = () => {
-    var city = getSearch.value;
+.then(response=>response.json())
 
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=93337295bde0c144edcba1e833710822&units=metric`)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
+.then(data=>{
 
-            getdiv.innerHTML = `
-                <div class="card">
-                    <h2>${data.name}</h2>
-                    <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png">
-                    <h3>${data.main.temp} °C</h3>
-                    <p><b>Weather:</b> ${data.weather[0].main}</p>
-                    <p><b>Description:</b> ${data.weather[0].description}</p>
-                    <p><b>Humidity:</b> ${data.main.humidity}%</p>
-                    <p><b>Wind Speed:</b> ${data.wind.speed} m/s</p>
-                </div>
-            `;
-        })
-        .catch(err => console.log(err));
-};
+document.getElementById("temp").innerHTML=
+Math.round(data.main.temp)+"°";
+
+document.getElementById("max").innerHTML=
+"↑ "+Math.round(data.main.temp_max)+"°";
+
+document.getElementById("min").innerHTML=
+"↓ "+Math.round(data.main.temp_min)+"°";
+
+document.getElementById("weather").innerHTML=
+data.weather[0].main;
+
+document.getElementById("icon").src=
+"https://openweathermap.org/img/wn/"+data.weather[0].icon+"@2x.png";
+
+});
+
 
 
 
